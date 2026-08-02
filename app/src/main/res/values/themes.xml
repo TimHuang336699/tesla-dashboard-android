@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        Tesla Dashboard 主题
+
+        继承 Theme.Material3.Dark.NoActionBar,提供:
+        - 深色背景 (#0A0E14)
+        - 无标题栏、无 ActionBar
+        - 全屏模式
+        - 透明状态栏和导航栏(配合代码中的 immersive mode)
+        - Material3 颜色覆盖为 Tesla 风格的青色强调
+
+        AndroidManifest.xml 中所有 Activity 和 Application 均引用此主题。
+    -->
+    <style name="Theme.TeslaDashboard" parent="Theme.Material3.Dark.NoActionBar">
+
+        <!-- 窗口背景色 -->
+        <item name="android:windowBackground">@color/background_dark</item>
+
+        <!-- 无标题栏 -->
+        <item name="android:windowNoTitle">true</item>
+
+        <!-- 全屏(配合代码中的 WindowInsetsController 实现沉浸式) -->
+        <item name="android:windowFullscreen">true</item>
+
+        <!-- 透明系统栏 -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <!-- 不亮色状态栏图标(深色背景用白色图标) -->
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- ===== Material3 颜色覆盖 ===== -->
+
+        <!-- 主色:青色 -->
+        <item name="colorPrimary">@color/accent_cyan</item>
+        <item name="colorOnPrimary">@color/background_dark</item>
+        <item name="colorPrimaryContainer">@color/surface_dark</item>
+        <item name="colorOnPrimaryContainer">@color/accent_cyan</item>
+
+        <!-- 表面色 -->
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+
+        <!-- 次要色 -->
+        <item name="colorSecondary">@color/accent_green</item>
+        <item name="colorOnSecondary">@color/background_dark</item>
+
+        <!-- 错误色 -->
+        <item name="colorError">@color/accent_red</item>
+        <item name="colorOnError">@color/text_primary</item>
+
+    </style>
+
+</resources>

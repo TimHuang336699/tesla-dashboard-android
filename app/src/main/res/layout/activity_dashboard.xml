@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Dashboard 主界面布局 — 横屏全屏
+
+    布局结构(自上而下):
+    1. 顶部栏: 档位(左) + 标题(中) + GPS状态(右)
+    2. 中部三列: 电量/续航(左) + 速度大数字(中) + 温度(右)
+    3. 底部信息区: 里程/G力/位置 两行 + Tesla状态 + 控制按钮
+
+    设计风格: Tesla 科技感深色主题
+    - 背景: #0A0E14 (background_dark)
+    - 数值: #00D4FF (accent_cyan) 青色霓虹
+    - 标签: #8E8E93 (text_secondary) 次要灰
+    - 速度: 96sp 超大字号, sans-serif-thin 极细字体
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <!-- ===== Guidelines ===== -->
+
+    <!-- 顶部栏与中部的水平分界线(12%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <!-- 中部与底部的水平分界线(62%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_middle_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.62" />
+
+    <!-- 左列与中列的垂直分界线(28%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_col_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <!-- 中列与右列的垂直分界线(72%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_col_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.72" />
+
+    <!-- ===== 顶部栏 ===== -->
+
+    <!-- 档位 P/R/N/D (左上) -->
+    <TextView
+        android:id="@+id/gearText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="--"
+        android:textColor="@color/accent_cyan"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 标题 TESLA DASHBOARD (顶部居中) -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:letterSpacing="0.15"
+        android:text="@string/title_dashboard"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/gearText"
+        app:layout_constraintEnd_toEndOf="@id/gl_col_right"
+        app:layout_constraintStart_toStartOf="@id/gl_col_left"
+        app:layout_constraintTop_toTopOf="@id/gearText" />
+
+    <!-- GPS 状态 (右上) -->
+    <TextView
+        android:id="@+id/gpsStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/gps_searching"
+        android:textColor="@color/accent_orange"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/gearText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/gearText" />
+
+    <!-- 顶部分隔线 -->
+    <View
+        android:id="@+id/topDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gearText" />
+
+    <!-- ===== 中部 - 左列(电量/续航) ===== -->
+
+    <!-- BATTERY 标签 -->
+    <TextView
+        android:id="@+id/batteryLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.1"
+        android:text="@string/label_battery"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/socText"
+        app:layout_constraintEnd_toEndOf="@id/gl_col_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/gl_top"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <!-- 电量百分比(大号青色) -->
+    <TextView
+        android:id="@+id/socText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-light"
+        android:text="--"
+        android:textColor="@color/accent_cyan"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@id/rangeLabel"
+        app:layout_constraintEnd_toEndOf="@id/gl_col_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/batteryLabel" />
+
+    <!-- RANGE 标签 -->
+    <TextView
+        android:id="@+id/rangeLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.1"
+        android:text="@string/label_range"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/rangeText"
+        app:layout_constraintEnd_toEndOf="@id/gl_col_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/socText" />
+
+    <!-- 续航里程 -->
+    <TextView
+        android:id="@+id/rangeText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="--"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/gl_middle_bottom"
+        app:layout_constraintEnd_toEndOf="@id/gl_col_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rangeLabel" />
+
+    <!-- ===== 中部 - 中列(速度大数字) ===== -->
+
+    <!-- 速度数值(96sp 超大字号,全屏最醒目元素) -->
+    <TextView
+        android:id="@+id/speedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:text="0"
+        android:textColor="@color/accent_cyan"
+        android:textSize="96sp"
+        app:layout_constraintBottom_toTopOf="@id/speedUnitText"
+        app:layout_constraintEnd_toEndOf="@id/gl_col_right"
+        app:layout_constraintStart_toStartOf="@id/gl_col_left"
+        app:layout_constraintTop_toTopOf="@id/gl_top"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <!-- 速度单位 km/h -->
+    <TextView
+        android:id="@+id/speedUnitText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.1"
+        android:text="@string/unit_kmh"
+        android:textColor="@color/text_secondary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/gl_middle_bottom"
+        app:layout_constraintEnd_toEndOf="@id/gl_col_right"
+        app:layout_constraintStart_toStartOf="@id/gl_col_left"
+        app:layout_constraintTop_toBottomOf="@id/speedText" />
+
+    <!-- ===== 中部 - 右列(温度) ===== -->
+
+    <!-- TEMPERATURE 标签 -->
+    <TextView
+        android:id="@+id/tempLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="end"
+        android:letterSpacing="0.1"
+        android:text="@string/label_temperature"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tempText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/gl_col_right"
+        app:layout_constraintTop_toTopOf="@id/gl_top"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <!-- 温度值(内/外) -->
+    <TextView
+        android:id="@+id/tempText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="end"
+        android:text="--"
+        android:textColor="@color/accent_cyan"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@id/gl_middle_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/gl_col_right"
+        app:layout_constraintTop_toBottomOf="@id/tempLabel" />
+
+    <!-- ===== 底部信息区 ===== -->
+
+    <LinearLayout
+        android:id="@+id/bottomSection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gl_middle_bottom">
+
+        <!-- 底部分隔线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/divider" />
+
+        <!-- 第1行: 本次里程 / 总里程 / G力 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- 本次里程 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.1"
+                    android:text="@string/label_trip"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tripDistText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="--"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <!-- 总里程 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.1"
+                    android:text="@string/label_odometer"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/odoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="--"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <!-- G力 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.1"
+                    android:text="@string/label_gforce"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/gForceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="--"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 第2行: 纬度 / 经度 / 航向 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- 纬度 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.1"
+                    android:text="@string/label_latitude"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/latText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="--"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- 经度 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.1"
+                    android:text="@string/label_longitude"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lonText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="--"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- 航向 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.1"
+                    android:text="@string/label_heading"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/headingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="--"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 第3行: Tesla连接状态(左) + 控制按钮(右) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Tesla 连接状态 -->
+            <TextView
+                android:id="@+id/teslaStatusText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/tesla_disconnected"
+                android:textColor="@color/accent_orange"
+                android:textSize="14sp" />
+
+            <!-- 历史记录按钮 -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/historyButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:letterSpacing="0.05"
+                android:minWidth="96dp"
+                android:text="@string/btn_history"
+                android:textColor="@color/accent_cyan"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:backgroundTint="@android:color/transparent"
+                app:cornerRadius="6dp"
+                app:strokeColor="@color/accent_cyan"
+                app:strokeWidth="1.5dp" />
+
+            <!-- 开始按钮(绿色描边) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/startButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:letterSpacing="0.05"
+                android:minWidth="96dp"
+                android:text="@string/btn_start"
+                android:textColor="@color/accent_green"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:backgroundTint="@android:color/transparent"
+                app:cornerRadius="6dp"
+                app:strokeColor="@color/accent_green"
+                app:strokeWidth="1.5dp" />
+
+            <!-- 停止按钮(红色描边) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/stopButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:enabled="false"
+                android:letterSpacing="0.05"
+                android:minWidth="96dp"
+                android:text="@string/btn_stop"
+                android:textColor="@color/accent_red"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:backgroundTint="@android:color/transparent"
+                app:cornerRadius="6dp"
+                app:strokeColor="@color/accent_red"
+                app:strokeWidth="1.5dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
