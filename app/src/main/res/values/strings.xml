@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== 应用 ===== -->
+    <string name="app_name">Tesla Dashboard</string>
+
+    <!-- ===== Dashboard 标题栏 ===== -->
+    <string name="title_dashboard">TESLA DASHBOARD</string>
+
+    <!-- ===== 标签文字 ===== -->
+    <string name="label_battery">BATTERY</string>
+    <string name="label_range">RANGE</string>
+    <string name="label_temperature">TEMPERATURE</string>
+    <string name="label_trip">TRIP</string>
+    <string name="label_odometer">ODO</string>
+    <string name="label_gforce">G-FORCE</string>
+    <string name="label_latitude">LAT</string>
+    <string name="label_longitude">LON</string>
+    <string name="label_heading">HDG</string>
+
+    <!-- ===== 单位 ===== -->
+    <string name="unit_kmh">km/h</string>
+    <string name="unit_km">km</string>
+    <string name="unit_degree">°</string>
+
+    <!-- ===== 按钮 ===== -->
+    <string name="btn_start">START</string>
+    <string name="btn_stop">STOP</string>
+    <string name="btn_history">HISTORY</string>
+
+    <!-- ===== 状态文字 ===== -->
+    <string name="tesla_connected">Tesla: 已连接</string>
+    <string name="tesla_disconnected">Tesla: 未连接</string>
+    <string name="gps_locked">GPS: 已锁定</string>
+    <string name="gps_searching">GPS: 搜索中</string>
+
+    <!-- ===== 默认占位符 ===== -->
+    <string name="default_value">--</string>
+
+    <!-- ===== 历史记录页 ===== -->
+    <string name="title_history">Trip History</string>
+    <string name="label_date">DATE</string>
+    <string name="label_distance">DISTANCE</string>
+    <string name="label_duration">DURATION</string>
+    <string name="label_avg_speed">AVG SPEED</string>
+    <string name="no_trips">暂无行程记录</string>
+
+    <!-- ===== 通知 ===== -->
+    <string name="notification_channel_name">行程记录</string>
+    <string name="notification_channel_desc">行程记录进行中的持续通知</string>
+    <string name="notification_title">Tesla Dashboard</string>
+    <string name="notification_text">正在记录行程…</string>
+
+    <!-- ===== 设置页 ===== -->
+    <string name="title_settings">Settings</string>
+    <string name="settings_tesla_api">Tesla API</string>
+    <string name="settings_vin">VIN</string>
+    <string name="settings_access_token">Access Token</string>
+    <string name="settings_region">Region</string>
+    <string name="settings_region_cn">中国区</string>
+    <string name="settings_region_global">全球</string>
+    <string name="settings_region_eu">欧洲</string>
+    <string name="settings_vehicle">Vehicle</string>
+    <string name="settings_battery_model">Battery Model</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_dark">深色</string>
+    <string name="settings_theme_light">浅色</string>
+    <string name="settings_theme_system">跟随系统</string>
+    <string name="settings_save">保存</string>
+    <string name="settings_test_connection">测试连接</string>
+    <string name="settings_saved">设置已保存</string>
+    <string name="settings_connection_success">Tesla API 连接成功</string>
+    <string name="settings_connection_failed">Tesla API 连接失败</string>
+
+</resources>
